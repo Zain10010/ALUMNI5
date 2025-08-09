@@ -6,6 +6,6 @@ window.API_BASE = new URLSearchParams(location.search).get('api') || 'https://RE
 // Example: window.API_BASE = 'https://your-backend-host.example.com';
 // You can also override at runtime via ?api=https://your-backend-host.example.com
 window.API_BASE = window.API_BASE || 'https://REPLACE_WITH_BACKEND_HOST';
-window.API_BASE = 'https://your-backend.example.com';
+window.API_BASE = 'https://eb033b2d299d.ngrok-free.app';
 
 
