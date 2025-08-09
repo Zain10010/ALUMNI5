@@ -1,3 +1,38 @@
+(function() {
+  const form = document.getElementById('alumniForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const payload = {};
+    formData.forEach((value, key) => {
+      payload[key] = value;
+    });
+
+    try {
+      const response = await fetch(`${window.API_BASE}/api/alumni/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        alert('Registration successful! Welcome to the alumni network.');
+        window.location.href = 'success.html';
+      } else {
+        const message = result && result.message ? result.message : 'Submission failed';
+        alert('Error: ' + message);
+      }
+    } catch (error) {
+      alert('Error submitting form: ' + error.message);
+    }
+  });
+})();
+
 // Configure API base via query param ?api=https://your-backend.example.com
 // Falls back to window.API_BASE if provided in config.js, else placeholder
 const apiBaseFromQuery = new URLSearchParams(location.search).get('api');
@@ -31,5 +66,6 @@ document.getElementById('alumniForm').addEventListener('submit', async function 
     alert('Error submitting form: ' + error.message);
   }
 });
+
 
 

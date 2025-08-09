@@ -8,7 +8,7 @@ A web-based Alumni Management System built with Python Flask, MySQL, and HTML/CS
 - Add/Edit Alumni Information
 - Dashboard with Statistics
 
-## Setup Instructions
+## Local Setup (Backend)
 
 1. Install Python dependencies:
 ```bash
@@ -32,6 +32,61 @@ python app.py
 - `static/`: CSS and static files
 - `templates/`: HTML templates
 - `models.py`: Database models 
+
+## Host as a Website (GitHub Pages + Backend)
+
+This repository is configured to serve a static registration site from the `docs/` folder via GitHub Pages. The form submits to a separate backend API (the Flask app) that you deploy to a cloud host.
+
+### 1) Deploy the Backend API
+
+You can deploy the Flask API to any host that provides HTTPS and a reachable public URL. Examples:
+
+- Render
+- Railway
+- Fly.io
+- Azure App Service / AWS / GCP
+
+Requirements:
+- Set environment variables `SECRET_KEY` and `DATABASE_URL` (e.g. `mysql+pymysql://user:password@host/dbname` or `sqlite:///alumni.db`).
+- Ensure CORS is allowed. This project enables CORS on `/api/*`.
+- Use the provided `Procfile` when deploying to platforms that support it (e.g. `web: gunicorn app:app`).
+
+After deploy, you will have a backend base URL like `https://your-backend.example.com`.
+
+### 2) Enable GitHub Pages for the Static Site
+
+1. Commit and push this repository to GitHub.
+2. In your GitHub repo: Settings → Pages → Build and deployment:
+   - Source: Deploy from a branch
+   - Branch: `main` (or your default) / Folder: `/docs`
+3. Save. Your site will be available at a URL like `https://<your-user>.github.io/<repo>/`.
+
+### 3) Configure the Static Site to Call Your Backend
+
+The static site reads the API base URL from `docs/config.js` or from a URL query parameter.
+
+Option A (edit file):
+- Open `docs/config.js` and set:
+```js
+window.API_BASE = 'https://your-backend.example.com';
+```
+
+Option B (no file changes):
+- Append `?api=https://your-backend.example.com` to the page URL, e.g.:
+`https://<your-user>.github.io/<repo>/?api=https://your-backend.example.com`
+
+Notes:
+- GitHub Pages uses HTTPS. Your backend must also be HTTPS, otherwise browsers will block the request as mixed content.
+
+### 4) Test
+
+1. Open your Pages URL.
+2. Fill the form and submit.
+3. Confirm that the submission reaches your backend and data is stored in your DB.
+
+## Optional: CI
+
+You can add GitHub Actions to run lint/tests. For a simple static site + Flask backend, this is optional.
 
 ## GitHub Pages Hosting (Frontend)
 

@@ -7,9 +7,11 @@ from datetime import datetime
 import sys
 import json
 from sheets_integration import fetch_and_update_alumni
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Enable CORS for API routes so GitHub Pages (different origin) can call backend
 import os
