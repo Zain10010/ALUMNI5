@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful - YIT Alumni</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portal.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="portal-container">
+        <header class="portal-header">
+            <img src="{{ url_for('static', filename='images/yit-logo.png') }}" alt="YIT Logo" class="logo">
+            <h1>YENEPOYA INSTITUTE OF TECHNOLOGY</h1>
+            <h2>Alumni Registration Portal</h2>
+        </header>
+
+        <main class="portal-main">
+            <div class="form-container">
+                <div class="success-message">
+                    <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 1rem;"></i>
+                    <h3>Registration Successful!</h3>
+                    <p>Thank you for registering with the YIT Alumni Network.</p>
+                    <p>Your information has been successfully submitted and will be reviewed by our team.</p>
+                </div>
+                <div class="form-submit">
+                    <a href="/" class="submit-btn">Register Another Alumni</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="portal-footer">
+            <p>&copy; 2024 YENEPOYA INSTITUTE OF TECHNOLOGY. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1>{{ alumni.first_name }} {{ alumni.last_name }}</h1>
+        <a href="{{ url_for('edit_alumni', id=alumni.id) }}" class="btn btn-primary">Edit Profile</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+        <!-- Basic Information -->
+        <div class="profile-section">
+            <h2>Basic Information</h2>
+            <table class="table">
+                <tr>
+                    <th>Email</th>
+                    <td>{{ alumni.email }}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>{{ alumni.phone or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>{{ alumni.date_of_birth.strftime('%Y-%m-%d') if alumni.date_of_birth else 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ alumni.gender or 'Not provided' }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Education Details -->
+        <div class="profile-section">
+            <h2>Education Details</h2>
+            <table class="table">
+                <tr>
+                    <th>Degree</th>
+                    <td>{{ alumni.degree }}</td>
+                </tr>
+                <tr>
+                    <th>Department/Major</th>
+                    <td>{{ alumni.department }}</td>
+                </tr>
+                <tr>
+                    <th>Graduation Year</th>
+                    <td>{{ alumni.graduation_year }}</td>
+                </tr>
+                <tr>
+                    <th>Student ID</th>
+                    <td>{{ alumni.student_id }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Professional Information -->
+        <div class="profile-section">
+            <h2>Professional Information</h2>
+            <table class="table">
+                <tr>
+                    <th>Current Employer</th>
+                    <td>{{ alumni.current_employer or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Job Title</th>
+                    <td>{{ alumni.job_title or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Industry/Sector</th>
+                    <td>{{ alumni.industry or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Years of Experience</th>
+                    <td>{{ alumni.years_of_experience or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>LinkedIn</th>
+                    <td>
+                        {% if alumni.linkedin %}
+                        <a href="{{ alumni.linkedin }}" target="_blank">View Profile</a>
+                        {% else %}
+                        Not provided
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Location -->
+        <div class="profile-section">
+            <h2>Location</h2>
+            <table class="table">
+                <tr>
+                    <th>City</th>
+                    <td>{{ alumni.current_city or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>State/Province</th>
+                    <td>{{ alumni.state or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Country</th>
+                    <td>{{ alumni.country or 'Not provided' }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Skills and Interests -->
+        <div class="profile-section">
+            <h2>Skills and Interests</h2>
+            <table class="table">
+                <tr>
+                    <th>Technical Skills</th>
+                    <td>{{ alumni.technical_skills or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Languages Known</th>
+                    <td>{{ alumni.languages_known or 'Not provided' }}</td>
+                </tr>
+                <tr>
+                    <th>Areas of Interest</th>
+                    <td>{{ alumni.areas_of_interest or 'Not provided' }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

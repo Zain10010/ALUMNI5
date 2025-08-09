@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <h3>{{ total_alumni }}</h3>
+        <p>Total Alumni</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ graduation_years|length }}</h3>
+        <p>Graduation Years</p>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Recent Alumni</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Graduation Year</th>
+                <th>Current Employer</th>
+                <th>Job Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alumni in recent_alumni %}
+            <tr>
+                <td><a href="{{ url_for('alumni_profile', id=alumni.id) }}">{{ alumni.first_name }} {{ alumni.last_name }}</a></td>
+                <td>{{ alumni.department }}</td>
+                <td>{{ alumni.graduation_year }}</td>
+                <td>{{ alumni.current_employer or 'Not provided' }}</td>
+                <td>{{ alumni.job_title or 'Not provided' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2>Graduation Year Distribution</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Number of Alumni</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for year, count in graduation_years %}
+            <tr>
+                <td>{{ year }}</td>
+                <td>{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %} 
