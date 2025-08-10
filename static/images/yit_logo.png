@@ -1,0 +1,17 @@
+YIT LOGO IMAGE PLACEHOLDER
+
+This file should contain your actual YIT logo image.
+
+REQUIREMENTS:
+- File name: yit_logo.png
+- Format: PNG image (transparent background preferred)
+- Size: At least 120x80 pixels
+- Quality: High resolution
+
+INSTRUCTIONS:
+1. Save your YIT logo as 'yit_logo.png'
+2. Replace this file with your actual logo image
+3. The logo will appear above the institution name in the header
+4. Restart your Flask application to see the changes
+
+CURRENT STATUS: Waiting for your logo image

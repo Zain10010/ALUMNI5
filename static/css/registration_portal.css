@@ -53,6 +53,23 @@ body {
     text-align: center;
 }
 
+.logo-container {
+    margin-bottom: 1rem;
+}
+
+.institution-logo {
+    width: 120px;
+    height: auto;
+    max-height: 80px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.institution-logo:hover {
+    transform: scale(1.05);
+}
+
 .portal-header h1 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
