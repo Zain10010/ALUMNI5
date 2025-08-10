@@ -30,15 +30,7 @@ body {
     flex-direction: column;
 }
 
-/* ===== TOP COVER BANNER ===== */
-.top-cover {
-    height: 300px;
-    background-color: white;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 
 
@@ -185,10 +177,6 @@ body {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
-    .top-cover {
-        height: 200px;
-    }
-    
     .form-container {
         padding: 1rem;
         margin: 1rem;
