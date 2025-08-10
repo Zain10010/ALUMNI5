@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_cors import CORS
-from models import db, Alumni
+from models import db, Alumni, User
 from config import Config
 from sqlalchemy import func
 from datetime import datetime
@@ -8,6 +8,7 @@ import sys
 import json
 from sheets_integration import fetch_and_update_alumni
 from flask_cors import CORS
+from functools import wraps
 # from firebase_routes import firebase_bp
 
 app = Flask(__name__)
@@ -31,8 +32,48 @@ except Exception as e:
     print(f"Database initialization error: {str(e)}", file=sys.stderr)
     sys.exit(1)
 
+# Set secret key for sessions
+app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-change-in-production')
+
+# Login required decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Please log in to access this page.', 'error')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+# Authentication routes
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        user = User.query.filter_by(username=username).first()
+        
+        if user and user.check_password(password):
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session['role'] = user.role
+            flash('Login successful!', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid username or password.', 'error')
+    
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('login'))
+
 # Route to display the Google Form
 @app.route('/alumni/register', methods=['GET', 'POST'])
+@login_required
 def alumni_register():
     if request.method == 'POST':
         try:
@@ -162,6 +203,7 @@ def receive_alumni_submission():
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
 @app.route('/')
+@login_required
 def dashboard():
     total_alumni = Alumni.query.count()
     recent_alumni = Alumni.query.order_by(Alumni.created_at.desc()).limit(5).all()
@@ -176,16 +218,19 @@ def dashboard():
                          graduation_years=graduation_years)
 
 @app.route('/alumni')
+@login_required
 def alumni_list():
     alumni = Alumni.query.order_by(Alumni.last_name).all()
     return render_template('alumni_list.html', alumni=alumni)
 
 @app.route('/alumni/<int:id>')
+@login_required
 def alumni_profile(id):
     alumni = Alumni.query.get_or_404(id)
     return render_template('alumni_profile.html', alumni=alumni)
 
 @app.route('/alumni/add', methods=['GET', 'POST'])
+@login_required
 def add_alumni():
     if request.method == 'POST':
         try:
@@ -244,6 +289,7 @@ def add_alumni():
     return render_template('alumni_form.html', current_year=datetime.now().year)
 
 @app.route('/alumni/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_alumni(id):
     alumni = Alumni.query.get_or_404(id)
     if request.method == 'POST':
@@ -301,6 +347,7 @@ def edit_alumni(id):
     return render_template('alumni_form.html', alumni=alumni, current_year=datetime.now().year)
 
 @app.route('/sync-sheets')
+@login_required
 def sync_sheets():
     try:
         success = fetch_and_update_alumni()
@@ -313,6 +360,7 @@ def sync_sheets():
     return redirect(url_for('dashboard'))
 
 @app.route('/alumni/<int:id>/delete', methods=['POST'])
+@login_required
 def delete_alumni(id):
     try:
         alumni = Alumni.query.get_or_404(id)
@@ -324,6 +372,7 @@ def delete_alumni(id):
     return redirect(url_for('alumni_list'))
 
 @app.route('/register')
+@login_required
 def alumni_registration():
     return render_template('alumni_registration.html')
 

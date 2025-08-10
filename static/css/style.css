@@ -21,17 +21,47 @@ body {
 
 /* Header Styles */
 header {
-    background-color: #1a237e;
+    background: linear-gradient(135deg, var(--primary-color), #2c3e50);
     color: white;
-    padding: 1rem 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.user-info {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.user-info span {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.logout-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logout-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 header h1 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    text-align: center;
-    color: #fff;
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 header h2 {

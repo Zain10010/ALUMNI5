@@ -12,6 +12,14 @@
         <div class="container">
             <h1>YENEPOYA INSTITUTE OF TECHNOLOGY</h1>
             <h2>Alumni Management System</h2>
+            {% if session.username %}
+            <div class="user-info">
+                <span><i class="fas fa-user"></i> {{ session.username }}</span>
+                <a href="{{ url_for('logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            {% endif %}
             <nav>
                 <ul>
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
