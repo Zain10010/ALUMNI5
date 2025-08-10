@@ -29,6 +29,46 @@ body {
     flex-direction: column;
 }
 
+/* Top Cover/Banner Styles */
+.top-cover {
+    height: 300px;
+    background-image: url('../images/yit_building.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-overlay {
+    background: rgba(26, 35, 126, 0.7);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-content {
+    text-align: center;
+    color: white;
+}
+
+.cover-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.cover-subtitle {
+    font-size: 1.5rem;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
 /* Header Styles */
 .portal-header {
     background-color: var(--primary-color);
@@ -49,15 +89,19 @@ body {
 
 /* Logo Styles */
 .portal-logo {
-    max-width: 120px;
-    height: auto;
+    max-width: 80px;
+    height: 80px;
     margin-bottom: 1rem;
-    filter: brightness(1.1) contrast(1.1);
-    transition: transform 0.3s ease;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .portal-logo:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Main Content */
@@ -181,6 +225,18 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .top-cover {
+        height: 200px;
+    }
+    
+    .cover-title {
+        font-size: 2rem;
+    }
+    
+    .cover-subtitle {
+        font-size: 1.2rem;
+    }
+    
     .form-container {
         padding: 1rem;
         margin: 1rem;
