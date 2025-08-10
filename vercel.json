@@ -2,11 +2,23 @@
   "version": 2,
   "builds": [
     {
-      "src": "registration-site/**/*",
+      "src": "registration-site/index.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/",
+      "dest": "/registration-site/index.html"
+    },
+    {
+      "src": "/styles.css",
+      "dest": "/registration-site/styles.css"
+    },
+    {
+      "src": "/script.js",
+      "dest": "/registration-site/script.js"
+    },
     {
       "src": "/(.*)",
       "dest": "/registration-site/$1"
