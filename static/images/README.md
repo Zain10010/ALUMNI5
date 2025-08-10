@@ -17,8 +17,14 @@ The building image will be used as:
 
 1. **Save your building photo** as `yit_building.jpg`
 2. **Place it in** the `static/images/` folder
-3. **Replace** the placeholder file
+3. **Replace** the current SVG placeholder with your actual photo
 4. **Restart** your Flask application
+
+## ✅ **Current Status**
+
+- **Placeholder image** is now working and visible
+- **SVG building design** shows as top cover banner
+- **Ready to replace** with your actual YIT building photo
 
 ## ✨ Features
 
