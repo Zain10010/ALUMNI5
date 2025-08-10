@@ -49,9 +49,15 @@ body {
 
 /* Logo Styles */
 .portal-logo {
-    max-width: 150px; /* Adjust size as needed */
+    max-width: 120px;
     height: auto;
-    margin-bottom: 1rem; /* Space between logo and text */
+    margin-bottom: 1rem;
+    filter: brightness(1.1) contrast(1.1);
+    transition: transform 0.3s ease;
+}
+
+.portal-logo:hover {
+    transform: scale(1.05);
 }
 
 /* Main Content */

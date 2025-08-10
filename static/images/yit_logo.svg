@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stylized pillar graphic -->
+  <g id="pillar">
+    <!-- Vertical bars -->
+    <rect x="40" y="20" width="12" height="60" rx="6" fill="#8B4513"/> <!-- Left bar - darker brown -->
+    <rect x="60" y="15" width="12" height="65" rx="6" fill="#D2691E"/> <!-- Second bar - medium orange-brown -->
+    <rect x="80" y="10" width="12" height="70" rx="6" fill="#D2691E"/> <!-- Third bar - medium orange-brown -->
+    <rect x="100" y="5" width="12" height="75" rx="6" fill="#FF8C00"/> <!-- Right bar - brighter orange -->
+    
+    <!-- Horizontal connecting bar -->
+    <rect x="35" y="15" width="82" height="10" rx="5" fill="#D2691E"/> <!-- Top connecting bar -->
+  </g>
+  
+  <!-- Text: YENEPOYA -->
+  <text x="100" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#8B4513">YENEPOYA</text>
+  
+  <!-- Text: INSTITUTE OF TECHNOLOGY -->
+  <text x="100" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="normal" fill="#8B4513">INSTITUTE OF TECHNOLOGY</text>
+</svg>
