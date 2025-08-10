@@ -9,10 +9,9 @@
 
 ## 📍 Usage
 
-The building image will be used in two places:
+The building image will be used as:
 
 1. **Top Cover Banner** - Full-width background image at the top
-2. **Header Logo** - Circular logo in the portal header
 
 ## 🚀 Setup Steps
 
@@ -25,7 +24,6 @@ The building image will be used in two places:
 
 - **Responsive design** - Adapts to mobile and desktop
 - **Professional styling** - Clean overlay with institution name
-- **Hover effects** - Interactive logo with smooth animations
 - **Auto-scaling** - Image automatically fits all screen sizes
 
 ## 🔧 Troubleshooting
