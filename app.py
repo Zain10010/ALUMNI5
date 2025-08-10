@@ -6,6 +6,7 @@ from sqlalchemy import func
 from datetime import datetime
 import sys
 import json
+import os
 from sheets_integration import fetch_and_update_alumni
 from flask_cors import CORS
 from functools import wraps
@@ -16,7 +17,6 @@ app.config.from_object(Config)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Enable CORS for API routes so GitHub Pages (different origin) can call backend
-import os
 allowed_origins = os.getenv('ALLOWED_ORIGINS', '*')
 if allowed_origins == '*':
     CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -70,6 +70,32 @@ def logout():
     session.clear()
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
+
+@app.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+        
+        # Get current user
+        user = User.query.get(session['user_id'])
+        
+        if not user.check_password(current_password):
+            flash('Current password is incorrect.', 'error')
+        elif new_password != confirm_password:
+            flash('New passwords do not match.', 'error')
+        elif len(new_password) < 6:
+            flash('New password must be at least 6 characters long.', 'error')
+        else:
+            # Update password
+            user.set_password(new_password)
+            db.session.commit()
+            flash('Password changed successfully!', 'success')
+            return redirect(url_for('dashboard'))
+    
+    return render_template('change_password.html')
 
 # Route to display the Google Form
 @app.route('/alumni/register', methods=['GET', 'POST'])

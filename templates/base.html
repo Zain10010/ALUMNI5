@@ -15,6 +15,9 @@
             {% if session.username %}
             <div class="user-info">
                 <span><i class="fas fa-user"></i> {{ session.username }}</span>
+                <a href="{{ url_for('change_password') }}" class="password-btn">
+                    <i class="fas fa-key"></i> Change Password
+                </a>
                 <a href="{{ url_for('logout') }}" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
