@@ -331,6 +331,78 @@ def alumni_registration():
 def registration_portal():
     return render_template('registration_portal.html')
 
+@app.route('/api/registration-portal/submit', methods=['POST'])
+def registration_portal_submit():
+    try:
+        data = request.get_json()
+        
+        # Convert date string to date object
+        date_of_birth = None
+        if data.get('dateOfBirth'):
+            try:
+                date_of_birth = datetime.strptime(data['dateOfBirth'], '%Y-%m-%d').date()
+            except ValueError:
+                date_of_birth = None
+
+        # Split full name into first and last name
+        full_name = data.get('fullName', '').strip()
+        if ' ' in full_name:
+            first_name, *last_name_parts = full_name.split(' ')
+            last_name = ' '.join(last_name_parts)
+        else:
+            first_name = full_name
+            last_name = ''
+
+        # Create new alumni record
+        alumni = Alumni(
+            # Basic Information
+            first_name=first_name,
+            last_name=last_name,
+            email=data.get('email', ''),
+            phone=data.get('phone', ''),
+            date_of_birth=date_of_birth,
+            gender='',  # Not collected in registration portal
+
+            # Education Details
+            degree=data.get('degree', ''),
+            department=data.get('department', ''),
+            graduation_year=int(data.get('graduationYear', 0)),
+            student_id=data.get('studentId', ''),
+
+            # Professional Information
+            current_employer=data.get('company', ''),
+            job_title=data.get('currentJob', ''),
+            industry='',  # Not collected in registration portal
+            years_of_experience=None,  # Not collected in registration portal
+            linkedin='',  # Not collected in registration portal
+
+            # Location
+            current_city=data.get('location', ''),
+            state='',  # Not collected in registration portal
+            country='',  # Not collected in registration portal
+
+            # Skills and Interests
+            technical_skills='',  # Not collected in registration portal
+            languages_known='',  # Not collected in registration portal
+            areas_of_interest=data.get('interests', '')
+        )
+        
+        db.session.add(alumni)
+        db.session.commit()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Registration successful! Welcome to the alumni network.',
+            'alumni_id': alumni.id
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'success': False,
+            'message': f'Error during registration: {str(e)}'
+        }), 500
+
 @app.route('/registration-success')
 def registration_success():
     return render_template('registration_success.html')

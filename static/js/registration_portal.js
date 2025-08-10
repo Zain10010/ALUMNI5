@@ -29,15 +29,37 @@ function handleFormSubmit(event) {
     submitBtn.textContent = 'Submitting...';
     submitBtn.disabled = true;
     
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-        showSuccessMessage('Registration submitted successfully!');
-        event.target.reset();
-        
+    // Submit form data to backend API
+    fetch('/api/registration-portal/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            showSuccessMessage(result.message);
+            event.target.reset();
+            
+            // Redirect to success page after 2 seconds
+            setTimeout(() => {
+                window.location.href = '/registration-success';
+            }, 2000);
+        } else {
+            showErrorMessage(result.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showErrorMessage('An error occurred while submitting the form. Please try again.');
+    })
+    .finally(() => {
         // Reset button
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-    }, 2000);
+    });
 }
 
 function validateForm(data) {

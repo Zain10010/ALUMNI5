@@ -3,35 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Successful - YIT Alumni</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/portal.css') }}">
+    <title>Registration Successful - YIT Alumni Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registration_portal.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="portal-container">
+        <!-- Header Section -->
         <header class="portal-header">
-            <img src="{{ url_for('static', filename='images/yit-logo.png') }}" alt="YIT Logo" class="logo">
             <h1>YENEPOYA INSTITUTE OF TECHNOLOGY</h1>
             <h2>Alumni Registration Portal</h2>
         </header>
 
+        <!-- Main Content -->
         <main class="portal-main">
-            <div class="form-container">
-                <div class="success-message">
-                    <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 1rem;"></i>
-                    <h3>Registration Successful!</h3>
-                    <p>Thank you for registering with the YIT Alumni Network.</p>
-                    <p>Your information has been successfully submitted and will be reviewed by our team.</p>
+            <div class="success-container">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="form-submit">
-                    <a href="/" class="submit-btn">Register Another Alumni</a>
+                
+                <h2>Registration Successful!</h2>
+                <p>Thank you for registering with the YIT Alumni Network.</p>
+                
+                <div class="success-details">
+                    <h3>What happens next?</h3>
+                    <ul>
+                        <li><i class="fas fa-database"></i> Your information has been saved to our alumni database</li>
+                        <li><i class="fas fa-users"></i> You're now part of our alumni community</li>
+                        <li><i class="fas fa-bell"></i> You'll receive updates about alumni events and opportunities</li>
+                        <li><i class="fas fa-network-wired"></i> Connect with other alumni through our network</li>
+                    </ul>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="{{ url_for('registration_portal') }}" class="btn btn-secondary">
+                        <i class="fas fa-plus"></i>
+                        Register Another Alumni
+                    </a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                        <i class="fas fa-home"></i>
+                        Go to Main Portal
+                    </a>
+                </div>
+                
+                <div class="contact-info">
+                    <p>If you have any questions, please contact us:</p>
+                    <p><i class="fas fa-envelope"></i> alumni@yit.edu</p>
+                    <p><i class="fas fa-phone"></i> +91-XXX-XXXXXXX</p>
                 </div>
             </div>
         </main>
-
-        <footer class="portal-footer">
-            <p>&copy; 2024 YENEPOYA INSTITUTE OF TECHNOLOGY. All rights reserved.</p>
-        </footer>
     </div>
 </body>
 </html> 
