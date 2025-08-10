@@ -1,0 +1,15 @@
+# Environment Variables for Alumni Portal
+# Copy these to your hosting provider's environment variables
+
+# Flask Configuration
+SECRET_KEY=your-super-secret-key-change-this-in-production
+FLASK_DEBUG=False
+
+# Database Configuration (for production, use DATABASE_URL from your hosting provider)
+# DATABASE_URL=postgresql://username:password@host:port/database_name
+
+# CORS Settings
+ALLOWED_ORIGINS=*
+
+# Google Sheets Integration (temporarily disabled for deployment)
+# GOOGLE_CREDENTIALS_FILE=credentials.json

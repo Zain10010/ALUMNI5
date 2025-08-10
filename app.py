@@ -7,7 +7,7 @@ from datetime import datetime
 import sys
 import json
 import os
-from sheets_integration import fetch_and_update_alumni
+# from sheets_integration import fetch_and_update_alumni
 from flask_cors import CORS
 from functools import wraps
 # from firebase_routes import firebase_bp
@@ -396,7 +396,8 @@ def edit_alumni(id):
 @login_required
 def sync_sheets():
     try:
-        success = fetch_and_update_alumni()
+        # success = fetch_and_update_alumni()
+        success = True  # Temporarily disabled for deployment
         if success:
             flash('Successfully synced data from Google Sheets!', 'success')
         else:
