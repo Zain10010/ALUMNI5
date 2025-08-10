@@ -2,8 +2,34 @@
   "version": 2,
   "builds": [
     {
-      "src": "**/*",
+      "src": "registration-site/index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "registration-site/styles.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "registration-site/script.js",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/registration-site/index.html"
+    },
+    {
+      "src": "/styles.css",
+      "dest": "/registration-site/styles.css"
+    },
+    {
+      "src": "/script.js",
+      "dest": "/registration-site/script.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/registration-site/$1"
     }
   ]
 }
