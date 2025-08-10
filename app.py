@@ -327,6 +327,10 @@ def delete_alumni(id):
 def alumni_registration():
     return render_template('alumni_registration.html')
 
+@app.route('/registration-portal')
+def registration_portal():
+    return render_template('registration_portal.html')
+
 @app.route('/registration-success')
 def registration_success():
     return render_template('registration_success.html')

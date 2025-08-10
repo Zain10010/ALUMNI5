@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YIT Alumni Registration Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registration_portal.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="portal-container">
+        <header class="portal-header">
+            <img src="{{ url_for('static', filename='images/yit_logo.png') }}" alt="YENEPOYA INSTITUTE OF TECHNOLOGY Logo" class="portal-logo">
+            <h1>YENEPOYA INSTITUTE OF TECHNOLOGY</h1>
+            <h2>Alumni Registration Portal</h2>
+        </header>
+
+        <main class="portal-main">
+            <div class="form-container">
+                <div class="form-header">
+                    <h3>Welcome to the Alumni Network</h3>
+                    <p>Please fill in your details to join our alumni community.</p>
+                </div>
+
+                <form id="alumniForm" class="registration-form" method="POST" action="{{ url_for('alumni_register') }}">
+                    <div class="form-section">
+                        <h4>Basic Information</h4>
+                        <div class="form-group">
+                            <label for="first_name">First Name *</label>
+                            <input type="text" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name *</label>
+                            <input type="text" id="last_name" name="last_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="date_of_birth">Date of Birth</label>
+                            <input type="date" id="date_of_birth" name="date_of_birth">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Education Details</h4>
+                        <div class="form-group">
+                            <label for="degree">Degree *</label>
+                            <input type="text" id="degree" name="degree" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department *</label>
+                            <input type="text" id="department" name="department" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="graduation_year">Graduation Year *</label>
+                            <input type="number" id="graduation_year" name="graduation_year" min="2000" max="2024" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student_id">Student ID *</label>
+                            <input type="text" id="student_id" name="student_id" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Professional Information</h4>
+                        <div class="form-group">
+                            <label for="current_employer">Current Employer</label>
+                            <input type="text" id="current_employer" name="current_employer">
+                        </div>
+                        <div class="form-group">
+                            <label for="job_title">Job Title</label>
+                            <input type="text" id="job_title" name="job_title">
+                        </div>
+                        <div class="form-group">
+                            <label for="industry">Industry</label>
+                            <input type="text" id="industry" name="industry">
+                        </div>
+                        <div class="form-group">
+                            <label for="years_of_experience">Years of Experience</label>
+                            <input type="number" id="years_of_experience" name="years_of_experience" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn Profile</label>
+                            <input type="url" id="linkedin" name="linkedin">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Location</h4>
+                        <div class="form-group">
+                            <label for="current_city">Current City</label>
+                            <input type="text" id="current_city" name="current_city">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State/Province</label>
+                            <input type="text" id="state" name="state">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" name="country">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Skills & Interests</h4>
+                        <div class="form-group">
+                            <label for="technical_skills">Technical Skills</label>
+                            <textarea id="technical_skills" name="technical_skills" rows="3" placeholder="e.g., Python, JavaScript, Machine Learning"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="languages_known">Languages Known</label>
+                            <input type="text" id="languages_known" name="languages_known" placeholder="e.g., English, Hindi, Kannada">
+                        </div>
+                        <div class="form-group">
+                            <label for="areas_of_interest">Areas of Interest</label>
+                            <textarea id="areas_of_interest" name="areas_of_interest" rows="3" placeholder="e.g., AI/ML, Web Development, Data Science"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-user-plus"></i>
+                            Register as Alumni
+                        </button>
+                    </div>
+                </form>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/registration_portal.js') }}"></script>
+</body>
+</html>
+
