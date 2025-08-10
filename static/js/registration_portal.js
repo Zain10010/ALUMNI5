@@ -43,9 +43,9 @@ function handleFormSubmit(event) {
             showSuccessMessage(result.message);
             event.target.reset();
             
-            // Redirect to success page after 2 seconds
+            // Redirect to dashboard after 2 seconds
             setTimeout(() => {
-                window.location.href = '/registration-success';
+                window.location.href = '/dashboard';
             }, 2000);
         } else {
             showErrorMessage(result.message);
@@ -72,6 +72,14 @@ function validateForm(data) {
             return false;
         }
     }
+    
+    // Validate years of experience
+    if (data.yearsOfExperience && (parseInt(data.yearsOfExperience) < 0 || parseInt(data.yearsOfExperience) > 50)) {
+        showErrorMessage('Years of experience must be between 0 and 50');
+        return false;
+    }
+    
+
     
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -135,6 +143,8 @@ function validateField(field) {
             return false;
         }
     }
+    
+
     
     return true;
 }

@@ -1,47 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="card">
-    <h1>{% if alumni %}Edit{% else %}Add{% endif %} Alumni</h1>
+<div class="form-container">
+    <h2><i class="fas fa-{% if alumni %}edit{% else %}plus-circle{% endif %}"></i> {% if alumni %}Edit{% else %}Add{% endif %} Alumni</h2>
 
     <form method="POST" action="{{ url_for('edit_alumni', id=alumni.id) if alumni else url_for('add_alumni') }}">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
             <!-- Basic Information -->
-            <div class="form-section">
-                <h2>Basic Information</h2>
+            <div class="form-section" style="background: var(--dark-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color);">
+                    <i class="fas fa-user"></i> Basic Information
+                </h3>
                 <div class="form-group">
                     <label for="first_name">First Name</label>
-                    <input type="text" id="first_name" name="first_name" class="form-control" required
+                    <input type="text" id="first_name" name="first_name" required
                            value="{{ alumni.first_name if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="last_name">Last Name</label>
-                    <input type="text" id="last_name" name="last_name" class="form-control" required
+                    <input type="text" id="last_name" name="last_name" required
                            value="{{ alumni.last_name if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required
+                    <input type="email" id="email" name="email" required
                            value="{{ alumni.email if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" class="form-control"
+                    <input type="tel" id="phone" name="phone"
                            value="{{ alumni.phone if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="date_of_birth">Date of Birth</label>
-                    <input type="date" id="date_of_birth" name="date_of_birth" class="form-control"
+                    <input type="date" id="date_of_birth" name="date_of_birth"
                            value="{{ alumni.date_of_birth.strftime('%Y-%m-%d') if alumni and alumni.date_of_birth else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="gender">Gender</label>
-                    <select id="gender" name="gender" class="form-control">
+                    <select id="gender" name="gender">
                         <option value="">Select Gender</option>
                         <option value="Male" {% if alumni and alumni.gender == 'Male' %}selected{% endif %}>Male</option>
                         <option value="Female" {% if alumni and alumni.gender == 'Female' %}selected{% endif %}>Female</option>
@@ -51,51 +53,55 @@
             </div>
 
             <!-- Education Details -->
-            <div class="form-section">
-                <h2>Education Details</h2>
+            <div class="form-section" style="background: var(--dark-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--accent-blue); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent-blue);">
+                    <i class="fas fa-graduation-cap"></i> Education Details
+                </h3>
                 <div class="form-group">
                     <label for="degree">Degree</label>
-                    <input type="text" id="degree" name="degree" class="form-control" required
+                    <input type="text" id="degree" name="degree" required
                            value="{{ alumni.degree if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="department">Department/Major</label>
-                    <input type="text" id="department" name="department" class="form-control" required
+                    <input type="text" id="department" name="department" required
                            value="{{ alumni.department if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="graduation_year">Year of Graduation</label>
-                    <input type="number" id="graduation_year" name="graduation_year" class="form-control" required
+                    <input type="number" id="graduation_year" name="graduation_year" required
                            min="1900" max="{{ current_year }}" value="{{ alumni.graduation_year if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="student_id">Student ID/Roll Number</label>
-                    <input type="text" id="student_id" name="student_id" class="form-control" required
+                    <input type="text" id="student_id" name="student_id" required
                            value="{{ alumni.student_id if alumni else '' }}">
                 </div>
             </div>
 
             <!-- Professional Information -->
-            <div class="form-section">
-                <h2>Professional Information</h2>
+            <div class="form-section" style="background: var(--dark-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--accent-purple); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent-purple);">
+                    <i class="fas fa-briefcase"></i> Professional Information
+                </h3>
                 <div class="form-group">
                     <label for="current_employer">Current Employer</label>
-                    <input type="text" id="current_employer" name="current_employer" class="form-control"
+                    <input type="text" id="current_employer" name="current_employer"
                            value="{{ alumni.current_employer if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="job_title">Job Title</label>
-                    <input type="text" id="job_title" name="job_title" class="form-control"
+                    <input type="text" id="job_title" name="job_title"
                            value="{{ alumni.job_title if alumni else '' }}">
                 </div>
 
                 <div class="form-group">
                     <label for="industry">Industry/Sector</label>
-                    <input type="text" id="industry" name="industry" class="form-control"
+                    <input type="text" id="industry" name="industry"
                            value="{{ alumni.industry if alumni else '' }}">
                 </div>
 

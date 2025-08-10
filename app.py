@@ -152,7 +152,7 @@ def alumni_register():
             db.session.add(alumni)
             db.session.commit()
             flash('Registration successful! Welcome to the alumni network.', 'success')
-            return redirect(url_for('alumni_profile', id=alumni.id))
+            return redirect(url_for('dashboard'))
         except Exception as e:
             flash(f'Error during registration: {str(e)}', 'error')
     
@@ -249,6 +249,26 @@ def alumni_list():
     alumni = Alumni.query.order_by(Alumni.last_name).all()
     return render_template('alumni_list.html', alumni=alumni)
 
+@app.route('/alumni/by-department')
+@login_required
+def alumni_by_department():
+    # Get all departments and count of alumni in each
+    department_stats = db.session.query(
+        Alumni.department,
+        func.count(Alumni.id).label('count')
+    ).group_by(Alumni.department).order_by(Alumni.department).all()
+    
+    # Get alumni grouped by department
+    departments = {}
+    for dept, count in department_stats:
+        alumni_in_dept = Alumni.query.filter_by(department=dept).order_by(Alumni.last_name).all()
+        departments[dept] = {
+            'count': count,
+            'alumni': alumni_in_dept
+        }
+    
+    return render_template('alumni_by_department.html', departments=departments)
+
 @app.route('/alumni/<int:id>')
 @login_required
 def alumni_profile(id):
@@ -308,7 +328,7 @@ def add_alumni():
             db.session.add(alumni)
             db.session.commit()
             flash('Alumni added successfully!', 'success')
-            return redirect(url_for('alumni_list'))
+            return redirect(url_for('dashboard'))
         except Exception as e:
             flash(f'Error adding alumni: {str(e)}', 'error')
     
@@ -428,6 +448,14 @@ def registration_portal_submit():
             first_name = full_name
             last_name = ''
 
+        # Convert years of experience to integer
+        years_of_experience = None
+        if data.get('yearsOfExperience'):
+            try:
+                years_of_experience = int(data['yearsOfExperience'])
+            except ValueError:
+                years_of_experience = None
+
         # Create new alumni record
         alumni = Alumni(
             # Basic Information
@@ -436,7 +464,7 @@ def registration_portal_submit():
             email=data.get('email', ''),
             phone=data.get('phone', ''),
             date_of_birth=date_of_birth,
-            gender='',  # Not collected in registration portal
+            gender=data.get('gender', ''),
 
             # Education Details
             degree=data.get('degree', ''),
@@ -447,18 +475,18 @@ def registration_portal_submit():
             # Professional Information
             current_employer=data.get('company', ''),
             job_title=data.get('currentJob', ''),
-            industry='',  # Not collected in registration portal
-            years_of_experience=None,  # Not collected in registration portal
-            linkedin='',  # Not collected in registration portal
+            industry=data.get('industry', ''),
+            years_of_experience=years_of_experience,
+            linkedin=data.get('linkedin', ''),
 
             # Location
             current_city=data.get('location', ''),
-            state='',  # Not collected in registration portal
-            country='',  # Not collected in registration portal
+            state=data.get('state', ''),
+            country=data.get('country', ''),
 
             # Skills and Interests
-            technical_skills='',  # Not collected in registration portal
-            languages_known='',  # Not collected in registration portal
+            technical_skills=data.get('technicalSkills', ''),
+            languages_known=data.get('languagesKnown', ''),
             areas_of_interest=data.get('interests', '')
         )
         

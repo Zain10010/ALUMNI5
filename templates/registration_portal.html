@@ -48,6 +48,17 @@
                             <label for="dateOfBirth">Date of Birth</label>
                             <input type="date" id="dateOfBirth" name="dateOfBirth">
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Academic Information -->
@@ -217,8 +228,33 @@
                         </div>
                         
                         <div class="form-group">
+                            <label for="industry">Industry/Sector</label>
+                            <input type="text" id="industry" name="industry" placeholder="e.g., Technology, Healthcare, Finance, Education...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="yearsOfExperience">Years of Experience</label>
+                            <input type="number" id="yearsOfExperience" name="yearsOfExperience" min="0" max="50" placeholder="Number of years">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn Profile</label>
+                            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="location">Current Location</label>
                             <input type="text" id="location" name="location" placeholder="City, Country">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="state">State/Province</label>
+                            <input type="text" id="state" name="state" placeholder="State or Province">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" name="country" placeholder="Country">
                         </div>
                     </div>
 
@@ -229,6 +265,16 @@
                         <div class="form-group">
                             <label for="achievements">Notable Achievements</label>
                             <textarea id="achievements" name="achievements" placeholder="Share your professional achievements, awards, or significant contributions..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="technicalSkills">Technical Skills</label>
+                            <textarea id="technicalSkills" name="technicalSkills" placeholder="List your technical skills, programming languages, software, tools, etc..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="languagesKnown">Languages Known</label>
+                            <textarea id="languagesKnown" name="languagesKnown" placeholder="List languages you can speak, read, or write..."></textarea>
                         </div>
                         
                         <div class="form-group">

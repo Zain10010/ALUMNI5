@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2><i class="fas fa-building"></i> Alumni by Department</h2>
+    
+    <div class="department-stats">
+        <div class="stats-card">
+            <h3>Department Overview</h3>
+            <div class="stats-grid">
+                {% for dept, data in departments.items() %}
+                <div class="stat-item">
+                    <span class="stat-number">{{ data.count }}</span>
+                    <span class="stat-label">{{ dept }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="departments-container">
+        {% for dept, data in departments.items() %}
+        <div class="department-section">
+            <div class="department-header" onclick="toggleDepartment('{{ dept|replace(' ', '-') }}')">
+                <h3><i class="fas fa-chevron-down"></i> {{ dept }}</h3>
+                <span class="alumni-count">{{ data.count }} Alumni</span>
+            </div>
+            
+            <div class="department-content" id="dept-{{ dept|replace(' ', '-') }}">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Degree</th>
+                                <th>Graduation Year</th>
+                                <th>Current Employer</th>
+                                <th>Job Title</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for alumni in data.alumni %}
+                            <tr>
+                                <td>
+                                    <a href="{{ url_for('alumni_profile', id=alumni.id) }}" 
+                                       style="color: var(--accent-blue); text-decoration: none;">
+                                        {{ alumni.first_name }} {{ alumni.last_name }}
+                                    </a>
+                                </td>
+                                <td>{{ alumni.degree }}</td>
+                                <td>{{ alumni.graduation_year }}</td>
+                                <td>{{ alumni.current_employer or 'Not provided' }}</td>
+                                <td>{{ alumni.job_title or 'Not provided' }}</td>
+                                <td class="action-buttons">
+                                    <a href="{{ url_for('alumni_profile', id=alumni.id) }}" 
+                                       class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                    <a href="{{ url_for('edit_alumni', id=alumni.id) }}" 
+                                       class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.department-stats {
+    margin-bottom: 2rem;
+}
+
+.stats-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+.stats-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--dark-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.departments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.department-section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.department-header {
+    background: var(--dark-bg);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.department-header:hover {
+    background: var(--darker-bg);
+}
+
+.department-header h3 {
+    color: var(--primary-color);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.department-header h3 i {
+    transition: transform 0.3s ease;
+}
+
+.department-header.collapsed h3 i {
+    transform: rotate(-90deg);
+}
+
+.alumni-count {
+    color: var(--accent-blue);
+    font-weight: 600;
+    background: rgba(96, 165, 250, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--accent-blue);
+}
+
+.department-content {
+    padding: 1.5rem;
+    display: block;
+}
+
+.department-content.collapsed {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .department-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+</style>
+
+<script>
+function toggleDepartment(deptId) {
+    const content = document.getElementById('dept-' + deptId);
+    const header = content.previousElementSibling;
+    
+    if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        header.classList.remove('collapsed');
+    } else {
+        content.classList.add('collapsed');
+        header.classList.add('collapsed');
+    }
+}
+
+// Initialize all departments as expanded
+document.addEventListener('DOMContentLoaded', function() {
+    const departmentHeaders = document.querySelectorAll('.department-header');
+    departmentHeaders.forEach(header => {
+        header.classList.remove('collapsed');
+    });
+});
+</script>
+{% endblock %}
