@@ -1,25 +1,37 @@
-# YIT Building Image Instructions
+# YIT Building Image Setup
 
-## To add the YIT building image:
+## 🖼️ Image Requirements
 
-1. **Save your building image** as `yit_building.jpg` in this folder
-2. **Image should be**:
-   - High quality (at least 1200x800 pixels)
-   - JPG format
-   - Named exactly: `yit_building.jpg`
+**File Name:** `yit_building.jpg`  
+**Format:** JPG/JPEG  
+**Size:** Minimum 1200x800 pixels  
+**Quality:** High resolution  
 
-## What this image will be used for:
+## 📍 Usage
 
-1. **Top Cover/Banner**: Full-width banner at the top of the registration portal
-2. **Logo**: Circular logo in the header section
+The building image will be used in two places:
 
-## Current setup:
+1. **Top Cover Banner** - Full-width background image at the top
+2. **Header Logo** - Circular logo in the portal header
 
-- The registration portal is configured to use this image
-- CSS is set up for responsive display
-- Image will automatically scale and crop appropriately
+## 🚀 Setup Steps
 
-## If you don't have the image yet:
+1. **Save your building photo** as `yit_building.jpg`
+2. **Place it in** the `static/images/` folder
+3. **Replace** the placeholder file
+4. **Restart** your Flask application
 
-- The portal will still work but may show a broken image icon
-- You can add the image later and it will automatically appear
+## ✨ Features
+
+- **Responsive design** - Adapts to mobile and desktop
+- **Professional styling** - Clean overlay with institution name
+- **Hover effects** - Interactive logo with smooth animations
+- **Auto-scaling** - Image automatically fits all screen sizes
+
+## 🔧 Troubleshooting
+
+If you see a broken image icon:
+- Check that the file is named exactly `yit_building.jpg`
+- Ensure the file is in the correct folder
+- Verify the image format is JPG/JPEG
+- Restart your Flask application after adding the image

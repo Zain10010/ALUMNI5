@@ -1,4 +1,13 @@
-# This is a placeholder for the YIT building image
-# The actual image should be saved here as yit_building.jpg
-# This file represents the beautiful YENEPOYA INSTITUTE OF TECHNOLOGY building
-# that will be used as both the logo and top cover image
+# YIT Building Image Placeholder
+# 
+# This file should contain the actual YIT building image
+# Save your building photo here as 'yit_building.jpg'
+# 
+# The image will be used for:
+# 1. Top cover banner (full-width background)
+# 2. Circular logo in the header
+# 
+# Recommended image specs:
+# - Format: JPG
+# - Size: At least 1200x800 pixels
+# - Quality: High resolution

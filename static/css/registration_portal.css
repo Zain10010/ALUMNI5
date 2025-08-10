@@ -1,4 +1,4 @@
-/* Portal Styles */
+/* ===== PORTAL STYLES ===== */
 :root {
     --primary-color: #1a237e;
     --secondary-color: #283593;
@@ -10,6 +10,7 @@
     --error-color: #f44336;
 }
 
+/* ===== RESET & BASE STYLES ===== */
 * {
     margin: 0;
     padding: 0;
@@ -29,7 +30,7 @@ body {
     flex-direction: column;
 }
 
-/* Top Cover/Banner Styles */
+/* ===== TOP COVER BANNER ===== */
 .top-cover {
     height: 300px;
     background-image: url('../images/yit_building.jpg');
@@ -69,7 +70,7 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
-/* Header Styles */
+/* ===== HEADER SECTION ===== */
 .portal-header {
     background-color: var(--primary-color);
     color: white;
@@ -87,9 +88,9 @@ body {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* Logo Styles */
+/* ===== LOGO STYLES ===== */
 .portal-logo {
-    max-width: 80px;
+    width: 80px;
     height: 80px;
     margin-bottom: 1rem;
     border-radius: 50%;
@@ -104,7 +105,7 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Main Content */
+/* ===== MAIN CONTENT ===== */
 .portal-main {
     flex: 1;
     padding: 2rem 0;
@@ -134,7 +135,7 @@ body {
     color: #666;
 }
 
-/* Form Sections */
+/* ===== FORM SECTIONS ===== */
 .form-section {
     margin-bottom: 2rem;
     padding: 1.5rem;
@@ -184,7 +185,7 @@ body {
     min-height: 100px;
 }
 
-/* Submit Button */
+/* ===== SUBMIT BUTTON ===== */
 .form-actions {
     text-align: center;
     margin-top: 2rem;
@@ -205,7 +206,7 @@ body {
     background-color: var(--secondary-color);
 }
 
-/* Alert Messages */
+/* ===== ALERT MESSAGES ===== */
 .alert {
     padding: 1rem;
     border-radius: 4px;
@@ -223,7 +224,7 @@ body {
     color: white;
 }
 
-/* Responsive Design */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
     .top-cover {
         height: 200px;
