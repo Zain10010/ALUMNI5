@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Integration Demo - Alumni Management System</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    
+    <!-- Custom Firebase Client -->
+    <script src="{{ url_for('static', filename='js/firebase-client.js') }}"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        
+        .section h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .alumni-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .alumni-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .alumni-card p {
+            margin: 8px 0;
+            color: #666;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 5px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔥 Firebase Integration Demo</h1>
+            <p>Alumni Management System with Firebase Authentication, Firestore & Storage</p>
+        </div>
+        
+        <div class="content">
+            <!-- Firebase Configuration Section -->
+            <div class="section">
+                <h2>🔧 Firebase Configuration</h2>
+                <div class="form-group">
+                    <label for="firebaseConfig">Firebase Config (JSON):</label>
+                    <textarea id="firebaseConfig" rows="8" placeholder='{"apiKey": "your-api-key", "authDomain": "your-project.firebaseapp.com", ...}'></textarea>
+                </div>
+                <button class="btn" onclick="initializeFirebase()">Initialize Firebase</button>
+                <div id="firebaseStatus" class="status hidden"></div>
+            </div>
+            
+            <!-- Authentication Section -->
+            <div class="section">
+                <h2>🔐 Authentication</h2>
+                <div id="authForms">
+                    <div class="form-group">
+                        <label for="authEmail">Email:</label>
+                        <input type="email" id="authEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="authPassword">Password:</label>
+                        <input type="password" id="authPassword" placeholder="Enter your password">
+                    </div>
+                    <div class="form-group">
+                        <label for="authDisplayName">Display Name (for registration):</label>
+                        <input type="text" id="authDisplayName" placeholder="Enter display name">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" onclick="signUp()">Sign Up</button>
+                        <button class="btn" onclick="signIn()">Sign In</button>
+                        <button class="btn btn-secondary" onclick="signOut()">Sign Out</button>
+                        <button class="btn btn-secondary" onclick="resetPassword()">Reset Password</button>
+                    </div>
+                </div>
+                <div id="authStatus" class="status hidden"></div>
+                <div id="userInfo" class="alumni-card hidden">
+                    <h3>Current User</h3>
+                    <p><strong>Email:</strong> <span id="userEmail"></span></p>
+                    <p><strong>UID:</strong> <span id="userUid"></span></p>
+                    <p><strong>Display Name:</strong> <span id="userDisplayName"></span></p>
+                </div>
+            </div>
+            
+            <!-- Alumni Management Section -->
+            <div class="section">
+                <h2>👥 Alumni Management</h2>
+                <div id="alumniForms">
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" placeholder="Enter last name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="degree">Degree:</label>
+                        <input type="text" id="degree" placeholder="Enter degree">
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department:</label>
+                        <input type="text" id="department" placeholder="Enter department">
+                    </div>
+                    <div class="form-group">
+                        <label for="graduationYear">Graduation Year:</label>
+                        <input type="number" id="graduationYear" placeholder="Enter graduation year">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentId">Student ID:</label>
+                        <input type="text" id="studentId" placeholder="Enter student ID">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" onclick="addAlumni()">Add Alumni</button>
+                        <button class="btn btn-secondary" onclick="getAllAlumni()">Get All Alumni</button>
+                        <button class="btn btn-secondary" onclick="searchAlumni()">Search Alumni</button>
+                    </div>
+                </div>
+                <div id="alumniStatus" class="status hidden"></div>
+                
+                <!-- Search Section -->
+                <div class="form-group">
+                    <label for="searchQuery">Search Query:</label>
+                    <input type="text" id="searchQuery" placeholder="Enter search term">
+                </div>
+                <div class="form-group">
+                    <label for="searchField">Search Field:</label>
+                    <select id="searchField">
+                        <option value="first_name">First Name</option>
+                        <option value="last_name">Last Name</option>
+                        <option value="email">Email</option>
+                        <option value="department">Department</option>
+                    </select>
+                </div>
+                
+                <!-- Alumni List -->
+                <div id="alumniList"></div>
+            </div>
+            
+            <!-- File Upload Section -->
+            <div class="section">
+                <h2>📁 File Storage</h2>
+                <div class="form-group">
+                    <label for="fileUpload">Select File:</label>
+                    <input type="file" id="fileUpload">
+                </div>
+                <div class="form-group">
+                    <label for="destinationPath">Destination Path:</label>
+                    <input type="text" id="destinationPath" placeholder="uploads/filename.ext" value="uploads/">
+                </div>
+                <div class="btn-group">
+                    <button class="btn" onclick="uploadFile()">Upload File</button>
+                    <button class="btn btn-secondary" onclick="listFiles()">List Files</button>
+                </div>
+                <div id="storageStatus" class="status hidden"></div>
+                <div id="fileList"></div>
+            </div>
+            
+            <!-- Statistics Section -->
+            <div class="section">
+                <h2>📊 Statistics</h2>
+                <div class="btn-group">
+                    <button class="btn" onclick="getFirestoreStats()">Get Firestore Stats</button>
+                    <button class="btn btn-secondary" onclick="syncToFirestore()">Sync to Firestore</button>
+                    <button class="btn btn-secondary" onclick="syncFromFirestore()">Sync from Firestore</button>
+                </div>
+                <div id="statsStatus" class="status hidden"></div>
+                <div id="statsDisplay" class="stats"></div>
+            </div>
+            
+            <!-- Health Check Section -->
+            <div class="section">
+                <h2>🏥 System Health</h2>
+                <button class="btn" onclick="checkHealth()">Check Firebase Health</button>
+                <div id="healthStatus" class="status hidden"></div>
+                <div id="healthDisplay"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo functionality
+        let currentAlumniId = null;
+        
+        // Initialize Firebase
+        async function initializeFirebase() {
+            const configText = document.getElementById('firebaseConfig').value;
+            if (!configText) {
+                showStatus('firebaseStatus', 'Please enter Firebase configuration', 'error');
+                return;
+            }
+            
+            try {
+                const config = JSON.parse(configText);
+                const success = await firebaseClient.initialize(config);
+                
+                if (success) {
+                    showStatus('firebaseStatus', 'Firebase initialized successfully!', 'success');
+                    // Enable forms
+                    document.getElementById('authForms').classList.remove('hidden');
+                    document.getElementById('alumniForms').classList.remove('hidden');
+                } else {
+                    showStatus('firebaseStatus', 'Failed to initialize Firebase', 'error');
+                }
+            } catch (error) {
+                showStatus('firebaseStatus', 'Invalid JSON configuration: ' + error.message, 'error');
+            }
+        }
+        
+        // Authentication functions
+        async function signUp() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const displayName = document.getElementById('authDisplayName').value;
+            
+            if (!email || !password) {
+                showStatus('authStatus', 'Please enter email and password', 'error');
+                return;
+            }
+            
+            const result = await firebaseClient.signUp(email, password, displayName);
+            if (result.success) {
+                showStatus('authStatus', 'User registered successfully!', 'success');
+                updateUserInfo(result.user);
+            } else {
+                showStatus('authStatus', 'Registration failed: ' + result.error, 'error');
+            }
+        }
+        
+        async function signIn() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            
+            if (!email || !password) {
+                showStatus('authStatus', 'Please enter email and password', 'error');
+                return;
+            }
+            
+            const result = await firebaseClient.signIn(email, password);
+            if (result.success) {
+                showStatus('authStatus', 'Signed in successfully!', 'success');
+                updateUserInfo(result.user);
+            } else {
+                showStatus('authStatus', 'Sign in failed: ' + result.error, 'error');
+            }
+        }
+        
+        async function signOut() {
+            const result = await firebaseClient.signOut();
+            if (result.success) {
+                showStatus('authStatus', 'Signed out successfully!', 'success');
+                hideUserInfo();
+            } else {
+                showStatus('authStatus', 'Sign out failed: ' + result.error, 'error');
+            }
+        }
+        
+        async function resetPassword() {
+            const email = document.getElementById('authEmail').value;
+            if (!email) {
+                showStatus('authStatus', 'Please enter email address', 'error');
+                return;
+            }
+            
+            const result = await firebaseClient.resetPassword(email);
+            if (result.success) {
+                showStatus('authStatus', 'Password reset email sent!', 'success');
+            } else {
+                showStatus('authStatus', 'Password reset failed: ' + result.error, 'error');
+            }
+        }
+        
+        // Alumni management functions
+        async function addAlumni() {
+            if (!firebaseClient.isAuthenticated()) {
+                showStatus('alumniStatus', 'Please sign in first', 'error');
+                return;
+            }
+            
+            const alumniData = {
+                first_name: document.getElementById('firstName').value,
+                last_name: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                degree: document.getElementById('degree').value,
+                department: document.getElementById('department').value,
+                graduation_year: parseInt(document.getElementById('graduationYear').value),
+                student_id: document.getElementById('studentId').value
+            };
+            
+            // Validate required fields
+            const requiredFields = ['first_name', 'last_name', 'email', 'degree', 'department', 'graduation_year', 'student_id'];
+            for (const field of requiredFields) {
+                if (!alumniData[field]) {
+                    showStatus('alumniStatus', `Please fill in ${field.replace('_', ' ')}`, 'error');
+                    return;
+                }
+            }
+            
+            const result = await firebaseClient.addAlumni(alumniData);
+            if (result.success) {
+                showStatus('alumniStatus', 'Alumni added successfully!', 'success');
+                clearAlumniForm();
+            } else {
+                showStatus('alumniStatus', 'Failed to add alumni: ' + result.error, 'error');
+            }
+        }
+        
+        async function getAllAlumni() {
+            const result = await firebaseClient.getAlumni();
+            if (result.success) {
+                displayAlumniList(result.data);
+                showStatus('alumniStatus', `Retrieved ${result.count} alumni`, 'success');
+            } else {
+                showStatus('alumniStatus', 'Failed to get alumni: ' + result.error, 'error');
+            }
+        }
+        
+        async function searchAlumni() {
+            const query = document.getElementById('searchQuery').value;
+            const field = document.getElementById('searchField').value;
+            
+            if (!query) {
+                showStatus('alumniStatus', 'Please enter search query', 'error');
+                return;
+            }
+            
+            const result = await firebaseClient.searchAlumni(query, field);
+            if (result.success) {
+                displayAlumniList(result.data);
+                showStatus('alumniStatus', `Found ${result.count} alumni matching "${query}"`, 'success');
+            } else {
+                showStatus('alumniStatus', 'Search failed: ' + result.error, 'error');
+            }
+        }
+        
+        // File storage functions
+        async function uploadFile() {
+            if (!firebaseClient.isAuthenticated()) {
+                showStatus('storageStatus', 'Please sign in first', 'error');
+                return;
+            }
+            
+            const fileInput = document.getElementById('fileUpload');
+            const destinationPath = document.getElementById('destinationPath').value;
+            
+            if (!fileInput.files[0]) {
+                showStatus('storageStatus', 'Please select a file', 'error');
+                return;
+            }
+            
+            if (!destinationPath) {
+                showStatus('storageStatus', 'Please enter destination path', 'error');
+                return;
+            }
+            
+            const result = await firebaseClient.uploadFile(fileInput.files[0], destinationPath);
+            if (result.success) {
+                showStatus('storageStatus', 'File uploaded successfully!', 'success');
+                showStatus('storageStatus', `Download URL: ${result.download_url}`, 'info');
+            } else {
+                showStatus('storageStatus', 'Upload failed: ' + result.error, 'error');
+            }
+        }
+        
+        // Statistics and sync functions
+        async function getFirestoreStats() {
+            try {
+                const response = await fetch('/api/firebase/stats/firestore');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayStats(result);
+                    showStatus('statsStatus', 'Statistics retrieved successfully!', 'success');
+                } else {
+                    showStatus('statsStatus', 'Failed to get stats: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('statsStatus', 'Error: ' + error.message, 'error');
+            }
+        }
+        
+        async function syncToFirestore() {
+            try {
+                const response = await fetch('/api/firebase/sync/to-firestore', { method: 'POST' });
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('statsStatus', result.message, 'success');
+                } else {
+                    showStatus('statsStatus', 'Sync failed: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('statsStatus', 'Error: ' + error.message, 'error');
+            }
+        }
+        
+        async function syncFromFirestore() {
+            try {
+                const response = await fetch('/api/firebase/sync/from-firestore', { method: 'POST' });
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('statsStatus', result.message, 'success');
+                } else {
+                    showStatus('statsStatus', 'Sync failed: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('statsStatus', 'Error: ' + error.message, 'error');
+            }
+        }
+        
+        // Health check function
+        async function checkHealth() {
+            try {
+                const response = await fetch('/api/firebase/health');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayHealth(result);
+                    showStatus('healthStatus', 'Health check completed', 'success');
+                } else {
+                    showStatus('healthStatus', 'Health check failed: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('healthStatus', 'Error: ' + error.message, 'error');
+            }
+        }
+        
+        // Utility functions
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+            element.classList.remove('hidden');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                element.classList.add('hidden');
+            }, 5000);
+        }
+        
+        function updateUserInfo(user) {
+            document.getElementById('userEmail').textContent = user.email || 'N/A';
+            document.getElementById('userUid').textContent = user.uid || 'N/A';
+            document.getElementById('userDisplayName').textContent = user.displayName || 'N/A';
+            document.getElementById('userInfo').classList.remove('hidden');
+        }
+        
+        function hideUserInfo() {
+            document.getElementById('userInfo').classList.add('hidden');
+        }
+        
+        function clearAlumniForm() {
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('degree').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('graduationYear').value = '';
+            document.getElementById('studentId').value = '';
+        }
+        
+        function displayAlumniList(alumniList) {
+            const container = document.getElementById('alumniList');
+            container.innerHTML = '';
+            
+            if (alumniList.length === 0) {
+                container.innerHTML = '<p>No alumni found.</p>';
+                return;
+            }
+            
+            alumniList.forEach(alumni => {
+                const card = document.createElement('div');
+                card.className = 'alumni-card';
+                card.innerHTML = `
+                    <h3>${alumni.first_name} ${alumni.last_name}</h3>
+                    <p><strong>Email:</strong> ${alumni.email}</p>
+                    <p><strong>Degree:</strong> ${alumni.degree}</p>
+                    <p><strong>Department:</strong> ${alumni.department}</p>
+                    <p><strong>Graduation Year:</strong> ${alumni.graduation_year}</p>
+                    <p><strong>Student ID:</strong> ${alumni.student_id}</p>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" onclick="editAlumni('${alumni.id}')">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteAlumni('${alumni.id}')">Delete</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        function displayStats(stats) {
+            const container = document.getElementById('statsDisplay');
+            container.innerHTML = '';
+            
+            const statCard = document.createElement('div');
+            statCard.className = 'stat-card';
+            statCard.innerHTML = `
+                <div class="stat-number">${stats.total_count}</div>
+                <div class="stat-label">Total Alumni</div>
+            `;
+            container.appendChild(statCard);
+            
+            if (stats.recent_alumni) {
+                const recentCard = document.createElement('div');
+                recentCard.className = 'stat-card';
+                recentCard.innerHTML = `
+                    <div class="stat-number">${stats.recent_alumni.length}</div>
+                    <div class="stat-label">Recent Alumni</div>
+                `;
+                container.appendChild(recentCard);
+            }
+        }
+        
+        function displayHealth(health) {
+            const container = document.getElementById('healthDisplay');
+            container.innerHTML = '';
+            
+            const healthCard = document.createElement('div');
+            healthCard.className = 'stat-card';
+            healthCard.innerHTML = `
+                <div class="stat-number">${health.overall_health ? '✅' : '❌'}</div>
+                <div class="stat-label">Overall Health</div>
+            `;
+            container.appendChild(healthCard);
+            
+            Object.entries(health.services).forEach(([service, status]) => {
+                const serviceCard = document.createElement('div');
+                serviceCard.className = 'stat-card';
+                serviceCard.innerHTML = `
+                    <div class="stat-number">${status ? '✅' : '❌'}</div>
+                    <div class="stat-label">${service.charAt(0).toUpperCase() + service.slice(1)}</div>
+                `;
+                container.appendChild(serviceCard);
+            });
+        }
+        
+        // Override Firebase client methods for demo
+        firebaseClient.handleUserSignIn = function(user) {
+            updateUserInfo(user);
+        };
+        
+        firebaseClient.handleUserSignOut = function() {
+            hideUserInfo();
+        };
+        
+        // Sample Firebase configuration (replace with your own)
+        document.getElementById('firebaseConfig').value = JSON.stringify({
+            apiKey: "your-api-key",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "your-messaging-sender-id",
+            appId: "your-app-id",
+            measurementId: "your-measurement-id",
+            databaseURL: "https://your-project-default-rtdb.firebaseio.com"
+        }, null, 2);
+    </script>
+</body>
+</html>

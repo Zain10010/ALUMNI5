@@ -1,13 +1,21 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key-here')
-    # Prefer DATABASE_URL from environment/.env; fallback to local MySQL
-    # Examples:
-    # - sqlite:///alumni.db
-    # - mysql+pymysql://user:password@127.0.0.1/alumni_db
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'mysql+pymysql://root:2006@127.0.0.1/alumni_db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False 
+    
+    # Database configuration - use environment variable or default to SQLite
+    DATABASE_URL = os.getenv('DATABASE_URL')
+    if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
+        DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+    
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL or 'sqlite:///alumni.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # Production settings
+    DEBUG = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    # CORS settings
+    ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', '*') 

@@ -8,6 +8,7 @@ import sys
 import json
 from sheets_integration import fetch_and_update_alumni
 from flask_cors import CORS
+# from firebase_routes import firebase_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -20,6 +21,9 @@ if allowed_origins == '*':
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 else:
     CORS(app, resources={r"/api/*": {"origins": [o.strip() for o in allowed_origins.split(',')]}})
+
+# Register Firebase Blueprint
+# app.register_blueprint(firebase_bp)
 
 try:
     db.init_app(app)
@@ -331,7 +335,7 @@ if __name__ == '__main__':
     try:
         with app.app_context():
             db.create_all()
-        app.run(debug=True)
+        app.run(debug=True, host='0.0.0.0', port=5000)
     except Exception as e:
         print(f"Application startup error: {str(e)}", file=sys.stderr)
         sys.exit(1) 

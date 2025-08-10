@@ -1,0 +1,30 @@
+# Firebase Configuration
+# Get these values from your Firebase Console (https://console.firebase.google.com/)
+
+# Firebase Project Settings
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_API_KEY=your-api-key
+FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+FIREBASE_APP_ID=your-app-id
+FIREBASE_MEASUREMENT_ID=your-measurement-id
+FIREBASE_DATABASE_URL=https://your-project-id-default-rtdb.firebaseio.com
+
+# Firebase Service Account (for Admin SDK)
+# You can either use a service account JSON file or environment variables
+FIREBASE_PRIVATE_KEY_ID=your-private-key-id
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project-id.iam.gserviceaccount.com
+FIREBASE_CLIENT_ID=your-client-id
+FIREBASE_CLIENT_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xxxxx%40your-project-id.iam.gserviceaccount.com
+
+# Database Configuration
+DATABASE_URL=sqlite:///alumni.db
+
+# Flask Configuration
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+
+# CORS Configuration
+ALLOWED_ORIGINS=*
