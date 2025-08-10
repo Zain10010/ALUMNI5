@@ -2,10 +2,11 @@
 
 ## 🖼️ Image Requirements
 
-**File Name:** `yit_building.jpg`  
-**Format:** JPG/JPEG  
-**Size:** Minimum 1200x800 pixels  
-**Quality:** High resolution  
+**File Name:** `yit_building.jpg` (for your actual photo)  
+**Current Working:** `yit_building.svg` (placeholder)  
+**Format:** JPG/JPEG for your photo, SVG for placeholder  
+**Size:** Minimum 1200x800 pixels for your photo  
+**Quality:** High resolution for your photo  
 
 ## 📍 Usage
 
@@ -18,13 +19,15 @@ The building image will be used as:
 1. **Save your building photo** as `yit_building.jpg`
 2. **Place it in** the `static/images/` folder
 3. **Replace** the current SVG placeholder with your actual photo
-4. **Restart** your Flask application
+4. **Update CSS** to use `.jpg` instead of `.svg`
+5. **Restart** your Flask application
 
 ## ✅ **Current Status**
 
-- **Placeholder image** is now working and visible
-- **SVG building design** shows as top cover banner
+- **SVG placeholder** is now working and visible
+- **Building design** shows as top cover banner
 - **Ready to replace** with your actual YIT building photo
+- **CSS currently uses** `yit_building.svg`
 
 ## ✨ Features
 
