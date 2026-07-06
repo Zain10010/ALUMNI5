@@ -7,7 +7,7 @@ echo To stop the application, close this window.
 echo.
 echo Your app will be available at: http://10.15.5.226:5000
 echo.
-echo Press any key to start...
+echo Press any key to start... 
 pause >nul
 
 :start_loop

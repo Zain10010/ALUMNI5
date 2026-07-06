@@ -12,6 +12,14 @@
     {
       "src": "registration-site/script.js",
       "use": "@vercel/static"
+    },
+    {
+      "src": "registration-site/config.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "registration-site/success.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [

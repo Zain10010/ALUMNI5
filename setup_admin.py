@@ -16,14 +16,14 @@ def create_admin_user():
         db.create_all()
         
         # Check if admin user already exists
-        existing_admin = User.query.filter_by(username='admin').first()
+        existing_admin = User.query.filter_by(username='zain').first()
         if existing_admin:
             print("Admin user already exists!")
             return
         
         # Create admin user
-        admin = User(username='admin', role='admin')
-        admin.set_password('admin123')  # Change this password!
+        admin = User(username='zain', role='admin')
+        admin.set_password('zain123')  # Change this password!
         
         try:
             db.session.add(admin)
